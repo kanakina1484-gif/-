@@ -93,7 +93,7 @@ function keyReleased() {
   {// 青チーム（左）は A キーで左へ引っ張る
     if (key == "a" || key == "A") 
     {ropex -= pullpower;
-    }
+    } 
     // 赤チーム（右）は L キーで右へ引っ張る
     if (key == "l" || key == "L") 
     {ropex += pullpower;
