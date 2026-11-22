@@ -1,3 +1,7 @@
+function setup() {
+  createCanvas(600, 400);
+}
+
 let ropex;  
 let ropey = 250; 
 let winline = 140;//どれだけ引っ張ったら即勝利になるか
@@ -6,10 +10,6 @@ let timelimit = 10;// 制限時間（秒）
 let starttime;
 let state = "start";//start, play, resultの3つの状態を作る
 let winner;
-
-function setup() {
-  createCanvas(600, 400);
-}
 
 function draw() {
   // 空
@@ -27,16 +27,31 @@ function draw() {
   strokeWeight(3);
   line(width / 2 - winline, 230, width / 2 - winline, 330);
   line(width / 2 + winline, 230, width / 2 + winline, 330);            // 地面と勝利ラインを描く
+ // 綱
+  stroke(160, 110, 60);
+  strokeWeight(8);
+  line(ropex - 240, ropey, ropex + 240, ropey);
+  //綱の中心の赤いリボン
+  noStroke();
+  fill(230, 40, 40);
+  rect(ropex - 5, ropey - 4, 10, 24);
+  //青チーム
+  for (let i = 0; i < 5; i++) {
+    let x = ropex - 50 - i * 38;
+    draw_person(x, ropey, 40, 110, 235);
+  }
+  //赤チーム
+  for (let i = 0; i < 5; i++) {
+    let x = ropex + 50 + i * 38;
+    draw_person(x, ropey, 235, 60, 60);
+  }
 
   if (state == "start") 
   {ropex = width/2;
-    draw_set();
     draw_start();
   } 
   else if (state == "play") 
-  {draw_set();
-
-    // 1. 一定のラインまで引っ張ったかの判定（一本勝ち）
+  {// 一定のラインまで引っ張ったかの判定（一本勝ち）
     if (ropex <= width / 2 - winline) {
       winner = "ライン突破！青チームの勝ち！";
       state = "result";
@@ -44,8 +59,7 @@ function draw() {
       winner = "ライン突破！赤チームの勝ち！";
       state = "result";
     }
-
-    // 2. 制限時間の計算と時間切れ判定
+    // 制限時間の計算と時間切れ判定
     let elapsed = (millis() - starttime) / 1000;
     let remaining = max(0, timelimit - elapsed);
 
@@ -62,8 +76,7 @@ function draw() {
       draw_timer(remaining);
     }
   } 
-  else if (state == "result") {
-    draw_set();
+  else if (state == "result") { 
     draw_result();
   }
 }
@@ -93,32 +106,6 @@ function keyPressed() {
   }
 }
 
-
-// 綱と、四角＆丸で作った各チーム5人の人間（一式）を描く関数
-function draw_set() {
-  // 綱
-  stroke(160, 110, 60);
-  strokeWeight(8);
-  line(ropex - 240, ropey, ropex + 240, ropey);
-
-  //綱の中心の赤いリボン
-  noStroke();
-  fill(230, 40, 40);
-  rect(ropex - 5, ropey - 4, 10, 24);
-
-  //青チーム（左）5人を for 文で描画
-  for (let i = 0; i < 5; i++) {
-    let px = ropex - 50 - i * 38;
-    draw_person(px, ropey, 40, 110, 235);
-  }
-
-  //赤チーム（右）5人を for 文で描画
-  for (let i = 0; i < 5; i++) {
-    let px = ropex + 50 + i * 38;
-    draw_person(px, ropey, 235, 60, 60);
-  }
-}
-
 // 1人分の人間（四角い体＋丸い頭）を描く自作関数
 function draw_person(x, ropey, r, g, b) {
   noStroke();
@@ -128,7 +115,7 @@ function draw_person(x, ropey, r, g, b) {
 
   // 頭（丸）
   fill(255, 220, 185);
-  ellipse(x, ropey - 15, 20, 20);
+  ellipse(x, ropey - 15, 20);
 }
 
 function draw_start() {
