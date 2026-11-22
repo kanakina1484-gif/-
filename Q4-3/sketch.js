@@ -49,6 +49,8 @@ function draw(){
 
   if(frameCount % 20 === 0) { // 20フレームごとに新しい的を追加する
     // BLANK[1] 新しい的オブジェクトを作成して targets 配列に追加しよう
+   const t = { x: width/2, y: height/2, size: 10, vx: random(-10,10), vy: random(-10,10) };
+    targets.push(t);
   }
 
   // ボールに当たった or 大きくなりすぎた的を配列から削除する
