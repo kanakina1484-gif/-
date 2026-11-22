@@ -81,7 +81,7 @@ function draw() {
   }
 }
 
-function keyPressed() {
+function keyReleased() {
   if (state == "start") 
   {if (key == " ")
     {ropex = width / 2;
